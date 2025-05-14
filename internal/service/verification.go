@@ -36,11 +36,11 @@ func (s *VerificationService) PrintRequests() error {
 	fmt.Printf("Found %d requests\n", len(requests))
 
 	for _, req := range requests {
-		println("Request ID: %v\n", req.ID)
-		println("Request Name: %v\n", req.Name)
-		println("Verified Tags: %v\n", req.VerifiedTags)
-		println("Not Verified Tags: %v\n", req.NotVerifiedTags)
-		println("--------------------\n")
+		fmt.Printf("Request ID: %v\n", req.ID)
+		fmt.Printf("Request Name: %v\n", req.Name)
+		fmt.Printf("Verified Tags: %v\n", req.VerifiedTags)
+		fmt.Printf("Not Verified Tags: %v\n", req.NotVerifiedTags)
+		fmt.Printf("--------------------\n")
 	}
 
 	return nil

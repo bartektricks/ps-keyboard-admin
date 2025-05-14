@@ -8,6 +8,7 @@ import (
 	"github.com/bartektricks/ps-keyboard-admin/internal/config"
 	"github.com/bartektricks/ps-keyboard-admin/internal/db"
 	"github.com/bartektricks/ps-keyboard-admin/internal/service"
+	"github.com/bartektricks/ps-keyboard-admin/internal/ui"
 )
 
 func main() {
@@ -52,5 +53,27 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("Rejected verification for game ID: %s\n", *rejectIDFlag)
+	}
+
+	requests, err := verificationService.GetVerificationRequests()
+	if err != nil {
+		fmt.Printf("Error getting verification requests: %v\n", err)
+		os.Exit(1)
+	}
+
+	selectedItems, err := ui.RunUI(requests)
+	if err != nil {
+		fmt.Printf("Error running UI: %v\n", err)
+		os.Exit(1)
+	}
+
+	if len(selectedItems) > 0 {
+		fmt.Println("Approved games:")
+		for _, item := range selectedItems {
+			verificationService.AcceptVerification(item.ID)
+			fmt.Printf("- %s (ID: %s)\n", item.Name, item.ID)
+		}
+	} else {
+		fmt.Println("No requests were selected.")
 	}
 }
